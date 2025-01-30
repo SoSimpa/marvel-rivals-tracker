@@ -1,0 +1,67 @@
+---
+title: "Marvel Rivals"
+output: html_document
+date: "2025-01-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+This is a little personal project of mine. After reading about an intro to bayesian stats and given an example about ping pong win rates varying after a series of games it inspired me to apply it to something I do on the daily, play games. This will be a journal of sorts where I keep track of my games played after every session and update the information and see how it varys from day to day. 
+
+```{r prior to 1/29}
+alpha <- 53
+beta <- 45
+theta <- seq(0,1,length = 100)
+prior <- dbeta(theta,alpha,beta)
+plot(theta, prior, type = "l", col = "blue", lwd = 2,
+     main = "Prior Distribution: Estimated Win Probability",
+     xlab = "Win Probability", ylab = "Density")
+
+
+expected_win_prob <- alpha / (alpha + beta)
+text(0.15, max(prior) * 0.8, 
+     paste("Expected Win Rate:", round(expected_win_prob, 3)), 
+     col = "black", cex = 1, font = 1.2)
+
+```
+
+```{r 1/29}
+new_wins <- 1
+new_losses <- 2
+
+alpha <- alpha + new_wins
+beta <- beta + new_losses
+
+posterior <- dbeta(theta, alpha, beta)
+
+plot(theta, posterior, type = "l", col = "red", lwd = 2, 
+     main = "Updated Posterior Distribution 1/29",
+     xlab = "Win Probability", ylab = "Density")
+lines(theta, prior, col = "blue", lwd = 2, lty = 2)
+legend("topright", legend = c("Prior", "Posterior"), col = c("blue", "red"), lwd = 2, lty = c(2,1))
+
+expected_win_prob <- alpha / (alpha + beta)
+text(0.15, max(posterior) * 0.8, 
+     paste("Expected Win Rate:", round(expected_win_prob, 3)), 
+     col = "black", cex = 1, font = 1.2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
